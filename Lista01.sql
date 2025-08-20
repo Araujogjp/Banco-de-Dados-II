@@ -35,14 +35,15 @@ d.	Quantidade de fatura já pagas
 e.	Valor ds faturas já pagas
 R -> 
 Select 
-	Emp_RazaoSocial As Empresa, 
-	Count(Case When Pag_DataPagto is Null Then 1 End) as "Qtd em Aberto",
-	Sum(Case When Pag_DataPagto is Null Then Pag_Valor Else 0 End) As "Em Aberto(R$)",
-	Count(Case When Pag_DataPagto is Not Null Then 1 End) As "Qtd Recebida",
-	Sum(Case When Pag_DataPagto is Not Null Then Pag_Valor Else 0 End) As "Recebida"
-From empresa, 
-	 Pagar
-Where
-	fkempresa = idempresa
+     Emp_RazaoSocial as Empresa,
+     Count(Case When Pag_DataPagto is Null Then 1 End) as "Qtd em Aberto"
+     Sum(Case When Pag_DataPagto is Null Then Pag_Valor Else 0 End) as "Em Aberto(R$)"
+     Count(Case When Pag_DataPagto is Null Then 1 Else 0 End) as "Qtd Recebida"
+     Sum(Case When Pag_DataPagto is Not null Then Pag_valor Else 0 End) as "Recebida(R$)"
+From 
+    empresa,
+    pagar
+Where 
+    fkempresa = idempresa
 Group by
-	Emp_RazaoSocial;
+    Emp_RazaoSocial 
